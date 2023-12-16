@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_examen2/screens/books_screen.dart'; // Asegúrate de importar correctamente
+import 'package:flutter_examen2/providers/provider.dart';
+import 'package:flutter_examen2/screens/books_screen.dart';
+import 'package:flutter_examen2/screens/details.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -8,16 +11,22 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Mi Aplicación',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => BookListProvider()),
+        ChangeNotifierProvider(create: (context) => BookDetailProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Stephen King Books',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        initialRoute: '/book_list', // Ruta inicial
+        routes: {
+          '/book_list': (context) => BookListScreen(),
+          '/book_detail': (context) => BookDetailScreen(),
+        },
       ),
-      // Define las rutas de navegación
-      routes: {
-        '/': (ctx) => BooksScreen(), // Ruta para BooksScreen
-        // Agrega más rutas aquí si es necesario
-      },
     );
   }
 }
